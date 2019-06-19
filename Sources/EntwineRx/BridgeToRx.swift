@@ -9,6 +9,8 @@ import Combine
 import RxSwift
 
 extension Publisher {
+    
+    /// A bridging operator that transforms a Combine `Publisher` into an RxSwift `Observable`.
     public func bridgeToRx() -> Observable<Output> {
         Observable<Output>.create { observer in
             let cancellable = self.sink(

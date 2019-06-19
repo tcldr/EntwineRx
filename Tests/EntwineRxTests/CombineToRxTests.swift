@@ -48,7 +48,26 @@ final class CombineToRxTests: XCTestCase {
         XCTAssertEqual(expected, results1.events)
     }
     
-    static var allTests = [
-        ("testBasicCase", testBasicCase),
-    ]
+    func testCompletePropagatesDownstream() {
+        
+        let disposeBag = DisposeBag()
+        let results1 = scheduler.createObserver(Int.self)
+        let subject = PassthroughSubject<Int, Never>()
+        
+        scheduler.scheduleAt(100) { subject.bridgeToRx().subscribe(results1).disposed(by: disposeBag) }
+        scheduler.scheduleAt(200) { subject.send(0) }
+        scheduler.scheduleAt(300) { subject.send(1) }
+        scheduler.scheduleAt(400) { subject.send(completion: .finished) }
+        
+        let expected = [
+            Recorded.next(200,  0),
+            Recorded.next(300,  1),
+            Recorded.completed(400)
+        ]
+        
+        scheduler.start()
+        
+        XCTAssertEqual(expected, results1.events)
+        
+    }
 }
