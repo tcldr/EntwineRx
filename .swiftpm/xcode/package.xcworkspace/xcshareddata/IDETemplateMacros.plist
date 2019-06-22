@@ -1,8 +1,13 @@
-//
-//  EntwineRx
-//  https://github.com/tcldr/EntwineRx
-//
-//  Copyright © 2019 Tristan Celder. All rights reserved.
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FILEHEADER</key>
+	<string>
+//  ___WORKSPACENAME___
+//  https://github.com/tcldr/___WORKSPACENAME___
+//  
+//  Copyright © ___YEAR___ Tristan Celder. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +25,6 @@
 //  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//  THE SOFTWARE.
-
-import Combine
-import RxSwift
-
-extension Publisher {
-    
-    /// A bridging operator that transforms a Combine `Publisher` into an RxSwift `Observable`.
-    public func bridgeToRx() -> Observable<Output> {
-        Observable<Output>.create { observer in
-            let cancellable = self.sink(
-                receiveCompletion: { completion in
-                    switch completion {
-                    case .finished:             observer.onCompleted()
-                    case .failure(let error):   observer.onError(error)
-                    }
-                },
-                receiveValue: { value in
-                    observer.onNext(value)
-                }
-            )
-            return Disposables.create { cancellable.cancel() }
-        }
-    }
-}
+//  THE SOFTWARE.</string>
+</dict>
+</plist>
