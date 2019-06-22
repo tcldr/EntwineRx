@@ -37,16 +37,14 @@ final class RxToCombineTests: XCTestCase {
         scheduler.schedule(after: 300) { subject.onNext(1) }
         scheduler.schedule(after: 400) { subject.onNext(2) }
         
-        let expected: [TestableSubscriberEvent<Int, Never>] = [
-            .init(100, .subscribe),
-            .init(200, .input(0)),
-            .init(300, .input(1)),
-            .init(400, .input(2)),
-        ]
-        
         scheduler.resume()
         
-        XCTAssertEqual(expected, results1.events)
+        XCTAssertEqual(results1.sequence, [
+            (100, .subscription),
+            (200, .input(0)),
+            (300, .input(1)),
+            (400, .input(2)),
+        ])
     }
     
     func testCompletePropagatesDownstream() {
@@ -60,15 +58,13 @@ final class RxToCombineTests: XCTestCase {
         scheduler.schedule(after: 300) { subject.onNext(1) }
         scheduler.schedule(after: 400) { subject.onCompleted() }
         
-        let expected: [TestableSubscriberEvent<Int, Never>] = [
-            .init(100, .subscribe),
-            .init(200, .input(0)),
-            .init(300, .input(1)),
-            .init(400, .completion(.finished)),
-        ]
-        
         scheduler.resume()
         
-        XCTAssertEqual(expected, results1.events)
+        XCTAssertEqual(results1.sequence, [
+            (100, .subscription),
+            (200, .input(0)),
+            (300, .input(1)),
+            (400, .completion(.finished)),
+        ])
     }
 }
