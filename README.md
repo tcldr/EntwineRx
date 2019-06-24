@@ -17,7 +17,7 @@ Part of [Entwine](https://github.com/tcldr/Entwine) – A collection of accessor
 ### ABOUT ENTWINE RX
 _EntwineRx_ is a lightweight library of two operators to bridge from _RxSwift_ to _Combine_ and back again. You can use _EntwineRx_ to make your existing _RxSwift_ view models and operators work seamlessly with any _Combine_ based code you might be developing.
 
-be sure to checkout the [documentation](http://tcldr.github.io/Entwine/EntwineDocs) for the full list of operators and utilities.
+Be sure to checkout the [main Entwine repository](https://github.com/tcldr/Entwine) for general testing tools and operators for _Combine_.
 
 ---
 
