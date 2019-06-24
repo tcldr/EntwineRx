@@ -28,6 +28,7 @@ import RxSwift
 extension Publisher {
     
     /// A bridging operator that transforms a Combine `Publisher` into an RxSwift `Observable`.
+    /// - Returns: An observable that republishes the elements of an upstream Combine publisher
     public func bridgeToRx() -> Observable<Output> {
         Observable<Output>.create { observer in
             let cancellable = self.sink(
