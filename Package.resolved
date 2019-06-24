@@ -5,9 +5,9 @@
         "package": "Entwine",
         "repositoryURL": "http://github.com/tcldr/Entwine.git",
         "state": {
-          "branch": "master",
-          "revision": "ae85f1a86bb83e9ed10a54c50de33ed9efafea5b",
-          "version": null
+          "branch": null,
+          "revision": "5c26eac6c9c4e97d65d9c42eea355ec08f9e36e8",
+          "version": "0.1.0"
         }
       },
       {
