@@ -15,7 +15,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "http://github.com/tcldr/Entwine.git", .branch("master")),
+        .package(url: "http://github.com/tcldr/Entwine.git", .branch("develop")),
         .package(url: "http://github.com/ReactiveX/RxSwift.git", .upToNextMajor(from: "5.0.0")),
     ],
     targets: [
