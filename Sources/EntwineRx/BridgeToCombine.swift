@@ -169,3 +169,24 @@ extension RxBridgeBufferingStrategy {
         }
     }
 }
+
+// MARK: - Publisher RxBridgeFailure assertion
+
+extension Publisher where Failure == RxBridgeFailure {
+    
+    /// Raises a fatal error when an upstream `RxBridge` publisher's buffer overflows and otherwise maps the failure
+    /// type to the `Error` type of an upstream `Observable`.
+    ///
+    /// Use this operator at some point following the `RxBridge` operator if you can be sure that a buffer overflow
+    /// will never occur.
+    ///
+    /// - Returns: A publisher with an Failure type that matches the `Error` type of an upstream bridged `Observable`
+    public func assertBridgeBufferNeverOverflows() -> Publishers.MapError<Self, Error> {
+        return mapError { error -> Error in
+            guard case .upstreamError(let e) = error else {
+                preconditionFailure("RxBridge buffer overflowed.")
+            }
+            return e
+        }
+    }
+}
