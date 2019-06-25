@@ -88,10 +88,11 @@ import PackageDescription
 let package = Package(
     ...
     dependencies: [
-        .package(url: "http://github.com/tcldr/EntwineRx.git", .upToNextMajor(from: "0.1.0")),
+        .package(url: "http://github.com/tcldr/EntwineRx.git", .upToNextMajor(from: "0.0.0")),
     ],
     ...
-    targets: [.target(name: "MyTarget", dependencies: ["EntwineRx"]),
+    targets: [
+        .target(name: "MyTarget", dependencies: ["EntwineRx"]),
     ]
 )
 ```
@@ -101,9 +102,10 @@ let package = Package(
 ### As part of an Xcode 11 or greater project:
 1. Select the `File -> Swift Packages -> Add package dependency...` menu item.
 2. Enter the repository url `https://github.com/tcldr/EntwineRx` and tap next.
-3. Select 'version, 'up to next major', enter `0.1.0`, hit next.
-4. Select the _Entwine_ library and specify the target you wish to use it with.
+3. Select 'version, 'up to next major', enter `0.0.0`, hit next.
+4. Select the _EntwineRx_ library and specify the target you wish to use it with.
 
+*n.b. _EntwineRx_ is pre-release software and as such the API may change prior to reaching 1.0. For finer-grained control please use `.upToNextMinor(from:)` in your SPM dependency declaration*
 
 ---
 
