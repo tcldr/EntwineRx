@@ -5,7 +5,7 @@ Part of [Entwine](https://github.com/tcldr/Entwine) – A collection of accessor
 
 ---
 
-### CONTENTS
+## Contents
 - [About EnwtineRx](#about-entwinerx)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
@@ -14,16 +14,16 @@ Part of [Entwine](https://github.com/tcldr/Entwine) – A collection of accessor
 
 ---
 
-### ABOUT ENTWINE RX
+## About _EntwineRx_
 _EntwineRx_ is a lightweight library of two operators to bridge from _RxSwift_ to _Combine_ and back again. You can use _EntwineRx_ to make your existing _RxSwift_ view models and operators work seamlessly with any _Combine_ based code you might be developing.
 
 Be sure to checkout the [main Entwine repository](https://github.com/tcldr/Entwine) for general testing tools and operators for _Combine_.
 
 ---
 
-### GETTING STARTED
+## Getting started
 
-## From _Combine_ to _RxSwift_
+### From _Combine_ to _RxSwift_
 The `bridgeToRx()` operator that _EntwineRx_ adds to _Combine_'s `Publisher` type means that you can bridge to _RxSwift_ as simply as:
 
 ```swift
@@ -34,7 +34,7 @@ import EntwineRx
 let myRxObservable = Publishers.Just<Int, Never>(1).bridgeToRx()
 
 ```
-## From _RxSwift_ to _Combine_
+### From _RxSwift_ to _Combine_
 This direction requires a little more thought as we now have to account for _Combine_'s requirement that any publisher obeys its [strict back pressure requirements](#backpressure-and-combine).
 
 As _RxSwift_ has no such restriction we have to give some guidance for how we would like any unrequested elements from our `Observable` stream to be handled. We do this by introducing an element buffer to store our elements until they're requested by a subscriber.
@@ -68,17 +68,19 @@ If you're feeling especially self-assured you can chain the `.assertBridgeBuffer
 
 ---
 
-### BACKPRESSURE AND _COMBINE_
+## Back pressure and _Combine_
 
-Backpressure is the situation in which a publisher is producing elements faster than a subscriber can consume.
+Back pressure is a mechanism that _Combine_ employs to enforce that publishers only produce as many elements as the subscriber has requested.
 
-This behavior can result in a scenario where unconsumed elements are building up in the buffer of some publisher faster than they can be processed by a downstream subscriber. This can very quickly consume system resources causing performance degradation – and ultimately out-of-memory errors.
+The reason the back pressure mechanism exists is to prevent a situation where elements build up in the buffer of some publisher faster than they can be processed by a downstream subscriber. This can very quickly consume system resources causing performance degradation – and ultimately out-of-memory errors.
 
-_Combine_ handles backpressure by only allowing a publisher to emit an element if it is has been signalled by its subscriber. A subscriber can signal at any point during the lifetime of a subscription, and may decide not to signal at all. Therefore it is the responsibility of the publisher to limit its output accordingly.
+_Combine_ applies 'back pressure' upstream by contractually obliging a publisher to only emit an element if it is has been signalled by its subscriber though 'demand' requests. A subscriber can signal at any point during the lifetime of a subscription – and may decide not to signal at all. With back pressure, it becomes possible to tightly control the rate of production of any arbitrary publisher.
+
+For publishers that rely on a source with an unbounded rate of production – an `Observable`, a timer, mouse clicks, etc. – the publisher must either maintain a buffer or drop elements to maintain its obligations to the downstream subscriber. 
 
 ---
 
-### INSTALLATION
+## Installation
 ### As part of another Swift Package:
 1. Include it in your `Package.swift` file as both a dependency and a dependency of your target.
 
@@ -109,12 +111,12 @@ let package = Package(
 
 ---
 
-### DOCUMENTATION
+## Documentation
 Full documentation for _EntwineRx_ can be found at [http://tcldr.github.io/Entwine/EntwineRxDocs](http://tcldr.github.io/Entwine/EntwineRxDocs).
 
 ---
 
-### COPYRIGHT AND LICENSE
+## Copyright and license
 Copyright 2019 © Tristan Celder
 
 _EntwineRx_ is made available under the [MIT License](http://github.com/tcldr/Entwine/blob/master/LICENSE)
