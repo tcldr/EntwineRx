@@ -95,7 +95,7 @@ fileprivate final class RxBridgeSubscription<Upstream: ObservableType, Downstrea
     
     enum Status {
         case pending
-        case active(RxBridgeSink<Upstream, Downstream>)
+        case active(DisposeBag)
         case complete
     }
     
@@ -117,41 +117,17 @@ fileprivate final class RxBridgeSubscription<Upstream: ObservableType, Downstrea
     // start the subscription when we reach a demand threshold of one
     func request(_ demand: Subscribers.Demand) {
         guard case .pending = status, demand > .none else { return }
-        status = .active(RxBridgeSink(upstream: upstream, downstream: downstream))
+        let disposeBag = DisposeBag()
+        upstream.subscribe(
+            onNext: { [unowned self] value in _ = self.downstream.receive(value) },
+            onError: { [unowned self] error in self.downstream.receive(completion: .failure(.upstreamError(error)))},
+            onCompleted: { [unowned self] in self.downstream.receive(completion: .finished) }
+        ).disposed(by: disposeBag)
+        status = .active(disposeBag)
     }
     
     func cancel() {
         status = .complete
-    }
-}
-
-// MARK: - Publisher Sink
-
-fileprivate final class RxBridgeSink<Upstream: ObservableType, Downstream: Subscriber>: ObserverType where Upstream.Element == Downstream.Input, Downstream.Failure == RxBridgeFailure {
-    
-    typealias Element = Upstream.Element
-    
-    let downstream: Downstream
-    var disposable: Disposable?
-    
-    init(upstream: Upstream, downstream: Downstream) {
-        self.downstream = downstream
-        self.disposable = upstream.subscribe(self)
-    }
-    
-    deinit {
-        disposable?.dispose()
-    }
-    
-    func on(_ event: Event<Upstream.Element>) {
-        switch event {
-        case .next(let value):
-            _ = downstream.receive(value)
-        case .error(let error):
-            downstream.receive(completion: .failure(.upstreamError(error)))
-        case .completed:
-            downstream.receive(completion: .finished)
-        }
     }
 }
 
