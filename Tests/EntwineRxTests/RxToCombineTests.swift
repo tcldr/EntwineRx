@@ -56,7 +56,7 @@ final class RxToCombineTests: XCTestCase {
         
         scheduler.resume()
         
-        XCTAssertEqual(results1.sequence, [
+        XCTAssertEqual(results1.recordedOutput, [
             (100, .subscription),
             (200, .input(0)),
             (300, .input(1)),
@@ -77,7 +77,7 @@ final class RxToCombineTests: XCTestCase {
         
         scheduler.resume()
         
-        XCTAssertEqual(results1.sequence, [
+        XCTAssertEqual(results1.recordedOutput, [
             (100, .subscription),
             (200, .input(0)),
             (300, .input(1)),
