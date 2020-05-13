@@ -6,8 +6,8 @@
         "repositoryURL": "http://github.com/tcldr/Entwine.git",
         "state": {
           "branch": null,
-          "revision": "0602dd38ff72fd704f38de90a74e2e4fd15e6ebe",
-          "version": "0.2.0"
+          "revision": "ce8de842f18a6b91795a970637d845b836c0ad92",
+          "version": "0.8.0"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "http://github.com/ReactiveX/RxSwift.git",
         "state": {
           "branch": null,
-          "revision": "b3e888b4972d9bc76495dd74d30a8c7fad4b9395",
-          "version": "5.0.1"
+          "revision": "002d325b0bdee94e7882e1114af5ff4fe1e96afa",
+          "version": "5.1.1"
         }
       }
     ]
